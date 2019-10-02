@@ -1,0 +1,3 @@
+.gridTable tr td.bs-checkbox input[type="checkbox"] {
+    cursor: pointer;
+}

@@ -1,0 +1,12 @@
+#sideMsg {
+  height: 52rem;
+}
+#formContainer {
+  overflow: hidden;
+  clear: both;
+}
+
+#formContainer #fine-uploader .qq-uploader {
+  height: 75rem;
+  max-height: 550px;
+}

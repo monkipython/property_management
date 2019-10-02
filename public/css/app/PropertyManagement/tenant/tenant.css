@@ -1,0 +1,7 @@
+#fullBilling div.trashIcon, 
+#otherMember div.trashIcon {
+  display: inline-flex;
+}
+.help-block {
+    text-align: center;
+}

@@ -1,0 +1,90 @@
+############## GO LIVE #####################
+a. composer dump-autoload
+1. Make sure you increase the size of elasticSearch
+curl -XPUT "http://192.168.1.80:9200/creditcheck_view/_settings" -H 'Content-Type: application/json' -d'
+{ 
+  "index" : { "max_result_window" : 500000000 } 
+}'
+2. change PDO in Connection.php to "protected $fetchMode = PDO::FETCH_ASSOC;"
+3. setup the laravel 
+3. 
+
+#Increase group_concat memory
+SET global group_concat_max_len = 1000000;
+
+#CONFIG
+/etc/httpd/conf/httpd.conf
+
+Linux server: 
+user: root
+password: myp@m@
+
+
+SYSTEM IDS
+Hostname=pmc-linux11
+IP=192.168.1.81
+
+NETWORK CONFIG
+DNS=192.168.1.236
+SMASK=255.255.252.0
+DOMAIN=pamamgt.local
+
+############# laravel.log has an issue with permission ####################
+1. setenforce 0
+
+############# INSTALL SOAP ####################
+1. yum --enablerepo=remi-php72 install php-xml php-soap php-xmlrpc php-mbstring php-json php-gd php-mcrypt
+2. composer update
+3. restart apache: service httpd restart
+
+############# ELASTIC SEARCH ##################
+Add maximum result 
+- curl -XPUT "localhost:9200/creditcheck_view/_settings" -H 'Content-Type: application/json' -d' { "index" : { "max_result_window" : 1000000 } }'
+
+Delete Index
+- curl -XDELETE localhost:9200/creditcheck_view
+curl -XDELETE localhost:9200/account_view
+curl -XDELETE localhost:9200/accountrole_view
+
+############## APACHE ######################
++ Restart Apache 
+  systemctl restart httpd.service
+##############
+
+/etc/php.ini
+
+########### start or stop elastic search ###############
+sudo systemctl start elasticsearch.service
+sudo systemctl stop elasticsearch.service
+
+OR
+cd /usr/share/elasticsearch
+./bin/elasticsearch
+NOTE: must be pamaadmin
+
+All the data are in /dev/sdb, we need to mount to /mnt/data
+mount -o uid=499,gid=499 /dev/sdb /mnt
+Try this command.
+
+########### start elastic search ###############
+./bin/elasticsearch
+
+########### ADD PORT TO FIREWALL RULE #####################
+firewall-cmd --zone=public --add-port=9200/tcp --permanent
+firewall-cmd --reload
+
+############ RUN APPLICATION #########################
+php artisan serve --host 0.0.0.0
+
+
+########### HOW TO MOUNT DRIVE #######################
+mount.cifs //PMC-File01/EastWestBank$ /home/cash -o user=pamamgt/tdw,pass=p@m@4900,uid=www-data,gid=www-data,file_mode=0755,dir_mode=0755
+
+############## START AND STOP MYSQL #####################
+# service mysqld start
+# service mysqld stop
+# service mysqld restart
+
+
+wcfwGe,Gr8>E
+wcfwGe,Gr9>E

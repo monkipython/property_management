@@ -1,0 +1,10 @@
+#journalEntry div.trashIcon{
+  display: inline-flex;
+}
+.journalEntryRemove {
+  margin-left:10px;
+  margin-top: 3px;
+}
+.content-header h1 > div {
+  margin: 10px 0px;
+}

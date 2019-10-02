@@ -1,0 +1,34 @@
+.affix {
+  top: 60px;
+  right: -33px;
+}
+/*CREDIT CHECK*/
+#tntReportView .left_info ul, #tntReportView .right_info ul {
+  margin: 0;
+  padding: 0;
+}
+#tntReportView .left_info li, #tntReportView .right_info li {
+  display: inline-flex;
+  list-style: outside none none;
+  padding: 6px 0 0 15px;
+  width: 100%;
+}
+#tntReportView .left_info li h1, #tntReportView .right_info li h1 {
+  display: inline-flex;
+  color: #5190b2;
+  font-size: 18px;
+}
+#tntReportView .left_info li label, #tntReportView .right_info li label {
+  margin: 0 0 0 10px;
+  width: 40%;
+}
+#tntReportView .left_info li, #tntReportView .right_info li {
+  list-style: outside none none;
+}
+#tntReportView .left_info span, #tntReportView .right_info span {
+  font-weight: bold;
+}
+.pdfobject-container {
+  height: 600px;
+  margin: 0;
+}

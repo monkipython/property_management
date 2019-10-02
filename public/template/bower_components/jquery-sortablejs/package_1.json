@@ -1,0 +1,57 @@
+{
+  "_from": "jquery-sortablejs@1.0.1",
+  "_id": "jquery-sortablejs@1.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-tKSyPMC+VfepxfFngVDmOJeYEGakzGHYh+/FgqzqHYJa29cN8i6LN0xlCI8Oc0ShTBWqra+zOgQmlydAVaeWkg==",
+  "_location": "/jquery-sortablejs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "jquery-sortablejs@1.0.1",
+    "name": "jquery-sortablejs",
+    "escapedName": "jquery-sortablejs",
+    "rawSpec": "1.0.1",
+    "saveSpec": null,
+    "fetchSpec": "1.0.1"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery-sortablejs/-/jquery-sortablejs-1.0.1.tgz",
+  "_shasum": "0435998a802216a0a8cb07ffdda3ebe743c69c37",
+  "_spec": "jquery-sortablejs@1.0.1",
+  "_where": "/home/vagrant/code/dataworkers",
+  "bugs": {
+    "url": "https://github.com/SortableJS/jquery-sortablejs/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A jQuery binding for SortableJS",
+  "files": [
+    "jquery-sortable.js"
+  ],
+  "homepage": "https://github.com/SortableJS/jquery-sortablejs#readme",
+  "keywords": [
+    "sortable",
+    "jQuery",
+    "drag",
+    "drop",
+    "draggable",
+    "sort",
+    "reordering"
+  ],
+  "license": "MIT",
+  "main": "./jquery-sortable.js",
+  "name": "jquery-sortablejs",
+  "peerDependencies": {
+    "jquery": "*",
+    "sortablejs": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SortableJS/jquery-sortablejs.git"
+  },
+  "version": "1.0.1"
+}

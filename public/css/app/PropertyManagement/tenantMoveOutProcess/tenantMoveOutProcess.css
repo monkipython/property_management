@@ -1,0 +1,40 @@
+#fullBilling div.trashIcon {
+  display: inline-flex;
+}
+#fullBilling {
+  overflow: unset;
+}
+#depositRefundForm input[name^='amount'], #totalAmount {
+  width: 148px;
+}
+#depositRefundForm .negative::before {
+  content: '-';
+  position: absolute;
+  left: 2px;
+  bottom: -10px;
+  font-size: 40px;
+  color: red;
+}
+#depositRefundForm .positive::before {
+  content: '+';
+  position: absolute;
+  left: 2px;
+  bottom: -2px;
+  font-size: 25px;
+  color: green;
+}
+
+#fullBilling > div {
+  margin: 5px 0px;
+}
+.totalAmount .col-md-6 {
+  font-weight: bold;
+  text-align: right;
+  font-size: 17px;
+}
+.forwardContainer {
+  padding-bottom: 20px;
+}
+.forwardContainer a {
+  text-decoration: underline;
+}

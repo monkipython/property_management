@@ -1,0 +1,327 @@
+﻿PHP config for Development Machine
+- max_execution_time = 90
+- display_errors = On
+- memory_limit = 512
+
+PHP config for Production Machine
+- max_execution_time = 90
+- display_errors = Off
+- memory_limit = 512
+
+
++ Restart apache
+systemctl restart httpd24-httpd
+
++htdocs location
+/opt/rh/httpd24/root/var/www/html
+
++php.ini
+/etc/opt/rh/rh-php70/php.ini
+
+
+
++php location
+/opt/rh/rh-php70/root/usr/bin/php
+
+
++config
+/opt/rh/httpd24/root/etc/httpd/conf/httpd.conf
+
+
++Start Elastic Search
+/etc/elasticsearch-6.3.1/bin/elasticsearch
+
++Start service 
+ - php artisan --host=uscisapid01 serve --port=80 & (api dev)
+ - php artisan --host=uscisapip01 serve --port=80 & (api prod) // To be able to use this we need to kill the port 80 first, 
+ - php artisan --host=uscissurveyt01 serve --port=80 & (survey dev)
+ - php artisan --host=uscissurveyp01 serve --port=80 & (survey prod)
+ - php artisan --host=uscisadmint01 serve --port=80 & (admin dev)
+ - php artisan --host=uscisadminp01 serve --port=80 & (admin prod)
+
++Start service (locally)
+ - php artisan --host=localhost:8093 serve 
+ 
+Note: if it is not working, might need to clear compiled. 
+ - php artisan clear-compiled
+ - composer dump-autoload
+ - php artisan config:clear
+
+php artisan cache:clear
+php artisan route:cache
+composer clear-cache
+
+
+Note: Just add the and symbol '&' to the end of the command. This will keep it running in the background. 
+https://stackoverflow.com/questions/35667838/why-should-i-keep-running-artisan-serve-command-to-keep-the-server-working
+
+########## FIND PORT 80 AND KILL PID #################
++ sudo netstat -nlp | grep :80
++ kill pid#
+
+########## CONFIG SERVER ################
++ vi /root/.bashrc
+
+############### AKAMAI LOGIN ###############
+- Host:  siemensplm1.upload.akamai.com
+- Username: gtac_content
+- Password: 8Tac_con73nt
+
+########## AWS S3 UPLOAD VIA PROXY ###############
+In order to make aws s3 upload work, we need to run the following command: 
+# export HTTP_PROXY=mil-fsprx.net.plm.eds.com:3128
+# export HTTPS_PROXY=mil-fsprx.net.plm.eds.com:3128
+
+Ex: aws s3 cp /tmp/stt_client.log s3://s3.drop.plm.siemens.com/test/downloads/
+
+########## AWS S3 Account ###############
+User name: siemens-plm-drop-automation
+Access key ID: AKIAIBRRC3FOJCHJJNHA
+Secret access key: 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
+Url/Host: s3.drop.plm.siemens.com
+
+########## Amazon SQS queues #############
+aws sqs receive-message --queue-url https://sqs.us-west-2.amazonaws.com/220080743877/plm-downloads-dlq-test --wait-time-seconds 20 --message-attribute-names Body --max-number-of-messages 10
+
+// View error
+aws sqs receive-message --queue-url https://sqs.us-west-2.amazonaws.com/220080743877/plm-downloads-dlq-test --wait-time-seconds 20 --attribute-names All --message-attribute-names All
+// Delete 
+aws sqs delete-message --queue-url https://sqs.us-west-2.amazonaws.com/220080743877/plm-downloads-dlq-test --receipt-handle AQEBhUpxcOog+FtoXkdMAwFCN2qZyv1h0LZdcz2+gRHr3uq1ykxUbuXwkshzQxYGSeIrRYOZmO+HoyAKdkATM6fCc6r0n0WcBlP6DknV5sRqAZrfMnGqbTJHn7CF0sNTInkfLHQerHpfuiUboJskZ8STzVeM6DzGEaORiUwrJdQo9LtDwpGU6Xn/N7gUfrRN/qWsb2owI1GpRz33frj/Ue7Oq/6+I+bR87kLyVcYkrXDfocdSP/ZmOsIrrKCujqwV4GJhdm2ysbVSIvlVO603oEfYEGYpLnuDcbcHpQHp7ECYh0pFozIm6cumtLz/ZItqigCAagr6/oPlSndDe/75x6Usjulm9XRGfCJ6amxRwDiKFhFcjNRQxdhOdqOcusSJ0SEn1KTXq1/U2DABazGioHFbz6GAZLxDhclMsOIQikxxww=
+
+
+########### ALIAS ########################
+vi /root/.bashrc
+
+alias php='/opt/rh/rh-php70/root/usr/bin/php'
+alias htdocs='cd /opt/rh/httpd24/root/var/www/html'
+alias html='/opt/rh/httpd24/root/var/www/html'
+alias artisan='php /opt/rh/httpd24/root/var/www/html/artisan'
+alias composer='php /usr/local/bin/composer'
+   -------- FOR SURVEY ONLY ---------
+alias surveyCsd='artisan survey:csd'
+alias surveyReport='artisan survey:report'
+
+########### HOW TO RUN CRON JOB ###############
++ php /opt/rh/httpd24/root/var/www/html/artisan <commandline>survey:getTacIr
+  Eg. php /opt/rh/httpd24/root/var/www/html/artisan survey:getTacIr
+
+########### MYSQL ################
++First Time Intall mysql
+ - Need to run this to set up root account: /opt/rh/rh-mysql57/root/bin/mysql_secure_installation 
+
++run mysql
+ - ./opt/rh/rh-mysql57/root/usr/bin/mysql
+
++Restart mysql
+ - systemctl restart rh-mysql57-mysqld
+
++ Increase Global memory for mysql
+ - query_cache_size=512M
+ - key_buffer_size=3072M
+
+
++ Mysql memory config
+#MyISAM
+key_buffer_size = 2048M
+sort_buffer_size = 1M
+read_buffer_size = 1M
+read_rnd_buffer_size = 2M
+myisam_sort_buffer_size = 2M
+join_buffer_size = 2M
+
+#Innodb
+innodb_buffer_pool_size = 3072M
+innodb_log_file_size = 1024M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 30
+innodb_file_format=barracuda
+
+
+############ API NETWORK #################
+Closing Remarks: 
+Lavender – 134.244.90.12
+
+Purple :
+IP - 129.73.160.139 
+Mask - 255.255.255.224
+GW - 129.73.160.129
+DNS - ns2.net.plm.eds.com
+
+############ INGRES ERROR AND SOLOTION ###############
+- PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 4294967320 bytes) in /opt/rh/httpd24/root/var/www/html/test.php on line 22
+  + This means that there is null returning so we need to put conditional check, it should solve the problem. 
+-
+
+############ COMPOSER COMMAND ###############
+- composer dump-autoload 
+- composer update
+- composer dumpautoload
+
+
+
+############ AKAMAI HOST ###############
+Storage Group NameSiemens_PLM_Download
+FTP  	siemensplm1.ftp.upload.akamai.com
+SFTP 	siemensplm1.sftp.upload.akamai.com
+SCP 	siemensplm1.scp.upload.akamai.com
+Rsync 	siemensplm1.rsync.upload.akamai.com
+SSH 	siemensplm1.ssh.upload.akamai.com
+ASPERA 	siemensplm1.aspera.upload.akamai.com
+NetStorage HTTP API siemensplm1-nsu.akamaihd.net
+
+############ AKAMAI PASSWOOD ###############
+username: sean.hayes@siemens.com
+password: Ha123456789
+
+
+
+#######################################################
+############ Laravel Go Live Configuration ############
+#######################################################
+1.	Install composer
+	- curl -sS https://getcomposer.org/installer | php
+	- mv composer.phar /usr/local/bin/composer
+	- chmod +x /usr/local/bin/composer
+	- check the version: php composer
+
+2.	Clear up all the class and autoload by running the following command
+	- # php artisan clear-compiled
+	- # composer dump-autoload
+3.	Change the config /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf in the apache to point to Laravel public project directory as the following: 
+
+DocumentRoot "/opt/rh/httpd24/root/var/www/html/public"
+#
+# Relax access to content within /opt/rh/httpd24/root/var/www.
+#
+<Directory "/opt/rh/httpd24/root/var/www/html/public">
+    AllowOverride All
+    # Allow open access:
+    Require all granted
+</Directory>
+
+# Further relax access to the default document root:
+<Directory "/opt/rh/httpd24/root/var/www/html/public">
+    #
+    # Possible values for the Options directive are "None", "All",
+    # or any combination of:
+    #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+    #
+    # Note that "MultiViews" must be named *explicitly* --- "Options All"
+    # doesn't give it to you.
+    #
+    # The Options directive is both complicated and important.  Please see
+    # http://httpd.apache.org/docs/2.4/mod/core.html#options
+    # for more information.
+    #
+    Options Indexes FollowSymLinks
+
+    #
+    # AllowOverride controls what directives may be placed in .htaccess files.
+    # It can be "All", "None", or any combination of the keywords:
+    #   Options FileInfo AuthConfig Limit
+    #
+    AllowOverride All
+
+    #
+    # Controls who can get stuff from this server.
+    #
+    Require all granted
+</Directory> 
+
+4.	Generate a new key by running following command
+# php artisan key:generate
+5.	Change ownership and permission of the project directory
+chown -R apache.apache /opt/rh/httpd24/root/var/www/html
+chmod -R 755 /opt/rh/httpd24/root/var/www/html
+6. Autoloader Optimization
+When deploying to production, make sure that you are optimizing Composer's class autoloader map so Composer can quickly find the proper file to load for a given class:
+composer install --optimize-autoloader --no-dev
+
+7.	Restart apache
+systemctl restart httpd24-httpd
+
+Reference: 
+Step 1: Setup Yum Repositories
+First you need to add REMI and EPEL rpm repositories in your system. these repositories have updated packages. Use one of the below command as per your OS version and system architecture.
+
+CentOS/RHEL 7, 64 Bit System: 
+# rpm -Uvh http://free.nchc.org.tw/fedora-epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+# rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+
+
+CentOS/RHEL 6, 32 Bit System: 
+# rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+# rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+
+CentOS/RHEL 6, 64 Bit System: 
+# rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+# rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+
+CentOS/RHEL 5, 32 Bit System: 
+# rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+# rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+
+
+CentOS/RHEL 5, 64 Bit System: 
+# rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-releas5-4.noarch.rpm
+# rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+Step 2: Install Apache, MySQL and PHP
+To start with Laravel, we first need to setup a running LAMP server. If you have already running LAMP stack skip this step else use followings commands to setup lamp stack.
+Install Apache
+# yum --enablerepo=remi,epel install httpd
+Install MySQL
+# yum --enablerepo=remi,epel install mysql-server
+# service mysqld start
+# /usr/bin/mysql_secure_installation
+Install PHP
+# yum --enablerepo=remi,epel install php php-mysql php-mcrypt
+# service httpd restart
+Step 3: Install Composer
+Composer is required for installing Laravel dependencies. So use below commands to download and use as a command in our system.
+# curl -sS https://getcomposer.org/installer | php
+# mv composer.phar /usr/local/bin/composer
+# chmod +x /usr/local/bin/composer
+Step 4: Install Laravel
+To download latest version of Laravel, Use below command to clone master repo of laravel from github.
+# cd /var/www
+# git clone https://github.com/laravel/laravel.git
+Navigate to Laravel code directory and use composer to install all dependencies required for Laravel framework.
+# cd /var/www/laravel
+# composer install
+Dependencies installation will take some time. After than set proper permissions on files.
+# chown -R apache.apache /var/www/laravel
+# chmod -R 755 /var/www/laravel
+Step 5: Set Encryption Key
+Now set the 32 bit long random number encrypption key, which used by the Illuminate encrypter service.
+$ php artisan key:generate
+
+Application key [Z4hfTHU7hFMwHauzOwv7rO9e0MJ9UnhQ] set successfully.
+Now edit config/app.php configuration file and update above generated application key as followings. Also make sure cipher is set properly.
+
+'key' => env('APP_KEY', 'Z4hfTHU7hFMwHauzOwv7rO9e0MJ9UnhQ'),
+
+'cipher' => 'AES-256-CBC',
+Step 6: Create Apache Virtual Host
+Now add a Virtual Host in your Apache configuration file to access Laravel framework from web browser. To do it edit Apache configuration file /etc/httpd/conf/httpd.conf and add below code at end of file
+# vim /etc/httpd/conf/httpd.conf
+<VirtualHost *:80>
+       ServerName laravel.example.com
+       DocumentRoot /var/www/laravel/public
+
+       <Directory /var/www/laravel>
+              AllowOverride All
+       </Directory>
+</VirtualHost>
+Restart Apache service and access Laravel framework using your favourite web browser and start developing a great web application.
+ # service httpd restart
+Now access the Laravel website in web browser.
+el website in web browser.
+ 
+
+Website: https://tecadmin.net/install-laravel-framework-on-centos/
+Key Google Search: how to install laravel in redhat 7
+
+

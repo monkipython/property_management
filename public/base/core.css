@@ -1,0 +1,104 @@
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+iframe{
+  border: 0px solid;
+}
+
+.jconfirm-content > .row > #uploadView > iframe{
+  width: 100%;
+  height: 700px !important;
+}
+
+embed.pdfobject, iframe {
+  height: 425px !important;
+}
+.bs-checkbox input[type=checkbox]{
+  cursor: pointer;
+}
+.datepicker.dropdown-menu .datepicker-days, .datepicker.dropdown-menu .datepicker-weeks {
+  display: inline-block !important;
+}
+.clickable{
+  color: #3c8dbc;
+  cursor: pointer;
+  border-bottom: dashed 1px #0088cc;
+}
+.text_underline{
+  text-decoration: underline;
+}
+.clickable:hover{
+  color: #72afd2;
+  /*text-decoration: underline;*/
+}
+.pointer{
+  cursor: pointer;
+}
+.autocomplete-suggestion {
+  cursor: pointer;
+}
+#mainMsg{
+  position: fixed;
+  top: 3px;
+  width: 94%;
+  z-index: 999999999;
+  height: 35px;
+}
+.overlayCover{
+  height: 1000000px;
+  background: rgba(255,255,255,0);
+  margin-top: 70px;
+}
+#mainMsg .alert{
+
+  margin-bottom: 0px;
+}
+/*#uploadView{
+  max-height: 470px;
+}*/
+.selectRow{
+  background: #f5f5f5;
+}
+/*.box .overlay, .overlay-wrapper .overlay{
+  z-index: 999999999;
+}*/
+/*This is for Ipad compatibility*/
+html{
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+/* Datepicker orient-top bug */
+.datepicker-dropdown.datepicker-orient-top:before, .datepicker-dropdown.datepicker-orient-top:after {
+  top: unset;
+}
+
+@media only screen and (min-height:1100px){
+  embed.pdfobject, iframe {
+    height: 700px !important;
+  }
+}
+
+@media only screen and (min-height:1100px) and (max-height:1400px){
+  .jconfirm-content > .row > #uploadView > iframe {
+    width: 100%;
+    height: 900px !important;
+  }
+}
+
+@media only screen and (min-height: 1400px){
+  .jconfirm-content > .row > #uploadView > iframe{
+    width: 100%;
+    height: 1000px !important;
+  }
+}
+/* Select2 dropdown height */
+.select2-container--default .select2-results>.select2-results__options {
+    max-height: 500px;
+}
+
+.datepicker {
+  z-index: 99999999!important;
+}
